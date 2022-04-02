@@ -25,10 +25,17 @@ public class Point {
 	
 	//overloading - preklapanje naziva metoda, pridruzivanje istog naziva razlicitim metodama
 	//preklopljene metode moraju se razlikovati ili po broju parametara
-	//ili po redosledu tipova podataka koji su pridruzeni parametrima
+	//ili po redosledu tipova podataka koji su pridruzeni parametrima, tj. po potpisu metode
+	//POTPIS METODE = naziv + niz tipova podataka koji su pridruzeni parametrima metode
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	//this() - poziv konstruktora, mora biti prva linija koda unutar konstruktora 
+	public Point(int x, int y, boolean selected) {
+		this(x,y);
+		this.selected = selected;
 	}
 	
 	//metode klase - modeluju ponasanje objekata
@@ -70,4 +77,31 @@ public class Point {
 		
 	}
 	
+	//overriding - redefinisanje metoda 
+	//toString i equals metode definisane su u klasi Object, redefinisemo ih za objekte klase Point
+	//metoda se ne moze redefinisati ako je deklarisana kao final
+	@Override //anotacija u Javi, nije obavezna, ali je dobra praksa navoditi je kada se vrsi redefinisanje
+	public String toString() {
+		return "("+this.x+","+this.y+")";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Point) {
+			//downcast - kastovanje objekta iz objekta natklase u objekat potklase
+			Point p = (Point)obj;
+			if(this.x == p.x && this.y == p.y) {
+				return true;
+			}else{
+				return false;
+			}
+			
+		}
+		return false;
+	}
+	
+	public static void staticMethod() {
+		System.out.println("Poziv staticke metode");
+	}
+
 }
