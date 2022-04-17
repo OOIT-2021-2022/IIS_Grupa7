@@ -77,13 +77,14 @@ public class Point {
 		
 	}
 	
+	/*
 	//overriding - redefinisanje metoda 
 	//toString i equals metode definisane su u klasi Object, redefinisemo ih za objekte klase Point
 	//metoda se ne moze redefinisati ako je deklarisana kao final
 	@Override //anotacija u Javi, nije obavezna, ali je dobra praksa navoditi je kada se vrsi redefinisanje
-	public String toString() {
+	/*public String toString() {
 		return "("+this.x+","+this.y+")";
-	}
+	}*/
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -103,5 +104,21 @@ public class Point {
 	public static void staticMethod() {
 		System.out.println("Poziv staticke metode");
 	}
-
+	
+	public boolean contains(int x, int y) {
+		/*if(this.distance(x, y) <= 2) {
+			return true;
+		}else {
+			return false;
+		}*/
+		return this.distance(x, y) <= 2;
+	}
+	
+	public boolean contains(Point p) {
+		return this.distance(p.getX(), p.getY()) <= 2;
+	}
+	
+	public String toString() {
+		return "("+ this.x+","+this.y+ ")";
+	}
 }
