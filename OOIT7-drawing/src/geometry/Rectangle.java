@@ -2,7 +2,7 @@ package geometry;
 
 import java.awt.Graphics;
 
-public class Rectangle extends Shape{
+public class Rectangle extends Shape {
 	private Point upperLeftPoint;
 	private int height;
 	private int width;
@@ -91,4 +91,18 @@ public class Rectangle extends Shape{
 		g.drawRect(this.getUpperLeftPoint().getX(), this.getUpperLeftPoint().getY(), this.width, this.height);
 	}
 	
+	public void moveTo(int x, int y) {
+		this.upperLeftPoint.moveTo(x, y);
+	}
+	
+	public void moveBy(int x, int y) {
+		this.upperLeftPoint.moveBy(x, y);
+	}
+	
+	public int compareTo(Object o) {
+		if (o instanceof Rectangle) {
+			return (int) (this.area() - ((Rectangle) o).area());
+		}
+		return 0;
+	}
 }

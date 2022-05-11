@@ -2,7 +2,7 @@ package geometry;
 
 import java.awt.Graphics;
 
-public class Line extends Shape{
+public class Line extends Shape {
 	private Point startPoint; 
 	private Point endPoint;
 	
@@ -76,6 +76,23 @@ public class Line extends Shape{
 	
 	public void draw(Graphics g) {
 		g.drawLine(this.getStartPoint().getX(), this.getStartPoint().getY(), this.getEndPoint().getX(), this.getEndPoint().getY());
+	}
+	
+	public void moveBy(int x, int y) {
+		this.startPoint.moveBy(x, y);
+		this.endPoint.moveBy(x, y);
+	}
+	
+	public void moveTo(int x, int y) {
+		this.startPoint.moveTo(x, y);
+		this.endPoint.moveTo(x, y);
+	}
+	
+	public int compareTo(Object o) {
+		if(o instanceof Line) {
+			return (int)(this.length()-((Line)o).length());
+		}
+		return 0;
 	}
 	
 }

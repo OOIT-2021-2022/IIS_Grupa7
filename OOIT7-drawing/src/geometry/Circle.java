@@ -2,7 +2,7 @@ package geometry;
 
 import java.awt.Graphics;
 
-public class Circle extends Shape{
+public class Circle extends Shape {
 	private int radius;
 	private Point center;
 	
@@ -70,4 +70,20 @@ public class Circle extends Shape{
 		int a = this.radius * 2;
 		g.drawOval(xRect, yRect, a, a);
 	}
+	
+	public void moveTo(int x, int y) {
+		this.center.moveTo(x, y);
+	}
+	
+	public void moveBy(int x, int y) {
+		this.center.moveBy(x, y);
+	}
+	
+	public int compareTo(Object o) {
+		if (o instanceof Circle) {
+			return (int) (this.area() - ((Circle) o).area());
+		}
+		return 0;
+	}
+
 }
