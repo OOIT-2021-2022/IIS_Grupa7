@@ -1,5 +1,6 @@
 package geometry;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Circle extends Shape {
@@ -27,7 +28,10 @@ public class Circle extends Shape {
 		return this.radius;
 	}
 
-	public void setRadius(int radius) {
+	public void setRadius(int radius) throws Exception {
+		if(radius < 0) {
+			throw new Exception("Radius ne moze biti negativan");
+		}
 		this.radius = radius;
 	}
 
@@ -67,8 +71,18 @@ public class Circle extends Shape {
 	public void draw(Graphics g) {
 		int xRect = this.center.getX() - this.radius;
 		int yRect = this.center.getY() - this.radius;
-		int a = this.radius * 2;
+		int a = 2*this.radius;
 		g.drawOval(xRect, yRect, a, a);
+		if (this.isSelected()) {
+			g.setColor(Color.BLUE);
+			g.drawRect(this.center.getX() - 2, this.center.getY() - 2, 4, 4);
+			g.drawRect(this.center.getX() - this.radius - 2, this.center.getY() - 2, 4, 4);
+			g.drawRect(this.center.getX() + this.radius - 2, this.center.getY() - 2, 4, 4);
+			g.drawRect(this.center.getX() - 2, this.center.getY() - this.radius - 2, 4, 4);
+			g.drawRect(this.center.getX() - 2, this.center.getY() + this.radius - 2, 4, 4);
+			g.setColor(Color.black);
+		}
+
 	}
 	
 	public void moveTo(int x, int y) {
