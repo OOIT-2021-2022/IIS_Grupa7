@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -72,6 +75,7 @@ public class TestFrm extends JFrame {
 		});
 		btnGroup.add(tglbtnZuta);
 		GridBagConstraints gbc_tglbtnZuta = new GridBagConstraints();
+		gbc_tglbtnZuta.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tglbtnZuta.insets = new Insets(0, 0, 5, 5);
 		gbc_tglbtnZuta.gridx = 0;
 		gbc_tglbtnZuta.gridy = 0;
@@ -92,6 +96,7 @@ public class TestFrm extends JFrame {
 		});
 		btnGroup.add(tglbtnCrvena);
 		GridBagConstraints gbc_tglbtnCrvena = new GridBagConstraints();
+		gbc_tglbtnCrvena.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tglbtnCrvena.insets = new Insets(0, 0, 5, 5);
 		gbc_tglbtnCrvena.gridx = 0;
 		gbc_tglbtnCrvena.gridy = 1;
@@ -110,8 +115,18 @@ public class TestFrm extends JFrame {
 				model.addElement(tglbtnPlava.getText());
 			}
 		});
+		
+		JButton btnIzmeniBoju = new JButton("Izmeni boju");
+		
+		btnIzmeniBoju.setEnabled(false);
+		GridBagConstraints gbc_btnIzmeniBoju = new GridBagConstraints();
+		gbc_btnIzmeniBoju.insets = new Insets(0, 0, 5, 0);
+		gbc_btnIzmeniBoju.gridx = 3;
+		gbc_btnIzmeniBoju.gridy = 1;
+		pnlCenter.add(btnIzmeniBoju, gbc_btnIzmeniBoju);
 		btnGroup.add(tglbtnPlava);
 		GridBagConstraints gbc_tglbtnPlava = new GridBagConstraints();
+		gbc_tglbtnPlava.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tglbtnPlava.insets = new Insets(0, 0, 5, 5);
 		gbc_tglbtnPlava.gridx = 0;
 		gbc_tglbtnPlava.gridy = 2;
@@ -124,6 +139,24 @@ public class TestFrm extends JFrame {
 		gbc_lblPlava.gridy = 2;
 		pnlCenter.add(lblPlava, gbc_lblPlava);
 		
+		JButton btnDodajBoju = new JButton("Dodaj boju");
+		btnDodajBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DlgColor dlgColor = new DlgColor();
+				dlgColor.setVisible(true);
+				if(dlgColor.isOk()) {
+					String color = dlgColor.getTxtRed().getText() + " " + dlgColor.getTxtGreen().getText() + " " + dlgColor.getTxtBlue().getText();
+					model.addElement(color);
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnDodajBoju = new GridBagConstraints();
+		gbc_btnDodajBoju.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDodajBoju.gridx = 3;
+		gbc_btnDodajBoju.gridy = 2;
+		pnlCenter.add(btnDodajBoju, gbc_btnDodajBoju);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -134,6 +167,37 @@ public class TestFrm extends JFrame {
 		JList list = new JList();
 		scrollPane.setViewportView(list);
 		list.setModel(model);
+		
+		btnIzmeniBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int index = list.getSelectedIndex();
+					String color = model.get(index);//34 34 34
+					String[] colors = color.split(" ");
+					DlgColor dlg = new DlgColor();
+					dlg.getTxtRed().setText(colors[0]);
+					dlg.getTxtGreen().setText(colors[1]);
+					dlg.getTxtBlue().setText(colors[2]);
+					dlg.setVisible(true);
+					
+					if(dlg.isOk()) {
+						model.remove(index);
+						String newString = dlg.getTxtRed().getText() + " " + dlg.getTxtGreen().getText() + " " + dlg.getTxtBlue().getText();
+						model.add(index, newString);
+					}
+				}catch(ArrayIndexOutOfBoundsException ex) {
+					JOptionPane.showMessageDialog(null, "Poruka","Ne mozete izmeniti ovu boju", JOptionPane.INFORMATION_MESSAGE);				
+
+				}
+				
+			}
+		});
+		
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				btnIzmeniBoju.setEnabled(true);
+			}
+		});
 		
 		JPanel pnlNorth = new JPanel();
 		pnlNorth.setBackground(Color.CYAN);
